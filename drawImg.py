@@ -33,7 +33,7 @@ with open(args.csvpath, newline='', encoding="utf-8-sig") as csvfile:
             # print(row[i+1])
             # print(type(row[i+1]))
             detail.append((int(float(row[i+1])), int(float(row[i+2]))))
-            detail.append((int(float(row[i+1]))+int(float(row[i+3])), int(float(row[i+2]))+int(float(row[i+3]))))
+            detail.append((int(float(row[i+1]))+int(float(row[i+3])), int(float(row[i+2]))+int(float(row[i+4]))))
         filenames.append(detail)
         
 
