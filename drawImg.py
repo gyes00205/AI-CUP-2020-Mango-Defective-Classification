@@ -2,6 +2,9 @@ import cv2
 import csv
 import argparse
 filenames = []
+'''
+python drawImg.py -i Dev/ -o DevLabel/ -c dev.csv
+'''
 # Define arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('-i','--inpath',help = 'the path to folder of input images', required=True)
@@ -20,20 +23,20 @@ with open(args.csvpath, newline='', encoding="utf-8-sig") as csvfile:
         for i in range(1,rowlen,5):
             if(row[i]==''):
                 break
-            if(row[i]=='不良-著色不佳'):
+            if(row[i+4]=='不良-著色不佳'):
                 detail.append('poor color')
-            elif(row[i]=='不良-炭疽病'):
+            elif(row[i+4]=='不良-炭疽病'):
                 detail.append('anthracnose')
-            elif(row[i]=='不良-乳汁吸附'):
+            elif(row[i+4]=='不良-乳汁吸附'):
                 detail.append('milk adsorption')
-            elif(row[i]=='不良-機械傷害'):
+            elif(row[i+4]=='不良-機械傷害'):
                 detail.append('mechanical damage')
             else:
                 detail.append('black spot')
             # print(row[i+1])
             # print(type(row[i+1]))
-            detail.append((int(float(row[i+1])), int(float(row[i+2]))))
-            detail.append((int(float(row[i+1]))+int(float(row[i+3])), int(float(row[i+2]))+int(float(row[i+4]))))
+            detail.append((int(float(row[i])), int(float(row[i+1]))))
+            detail.append((int(float(row[i]))+int(float(row[i+2])), int(float(row[i+1]))+int(float(row[i+3]))))
         filenames.append(detail)
         
 
