@@ -1,3 +1,6 @@
+'''
+python detect.py -i Dev/ -o Result/
+'''
 import numpy as np
 import os
 import sys
@@ -5,27 +8,37 @@ import tensorflow as tf
 
 from collections import defaultdict
 import cv2
-
-from xml.dom.minidom import parse
-import xml.dom.minidom
+import argparse
+# from xml.dom.minidom import parse
+# import xml.dom.minidom
 
 ########Object detection imports########
 # sys.path.append("../models/research")
 from utils import label_map_util
 from utils import visualization_utils as vis_util
-import imutils
-from imutils import contours
+# import imutils
+# from imutils import contours
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-i','--inpath',help = 'the path to folder of input images', required=True)
+parser.add_argument('-o','--outpath',help = 'the path to folder of output images', required=True)
+# parser.add_argument('-c','--csvpath',help = 'the path to csv ', required=True)
+# parser.add_argument('-n','--numImg',help = 'number Image', required=True)
+args = parser.parse_args()
 
 config = tf.ConfigProto()
 config.gpu_options.allow_growth = True
 sess = tf.Session(config=config)
-outdir = 'Result/'
-MODEL_NAME = 'out_graph_dir/saved_model_1000steps'
+
+MODEL_NAME = 'out_graph_dir/saved_model_6000steps'
 PATH_TO_CKPT = MODEL_NAME + '/frozen_inference_graph.pb'
 PATH_TO_LABELS = 'object-detection.pbtxt'
 NUM_CLASSES = 5
 MIN_SCORE_THRESH = 0.7
-files = os.listdir('Dev/')
+
+INPUT_PATH = args.inpath
+OUTPUT_PATH = args.outpath
+files = os.listdir(INPUT_PATH)
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
@@ -54,15 +67,14 @@ category_index = label_map_util.create_category_index(categories)
 with detection_graph.as_default():
     with tf.Session(graph=detection_graph) as sess:
         for img_num in range(len(files)):
-            print('Dev/' + files[img_num])
-            img = cv2.imread('Dev/' + files[img_num])
+            print(INPUT_PATH + files[img_num])
+            img = cv2.imread(INPUT_PATH + files[img_num])
             width = img.shape[1]
             height = img.shape[0]
-            origin = img.copy()
             
-            # print('happig-video/pic/' + files[img_num])
 
             # Definite input and output Tensors for detection_graph
+
             # image_tensor = detection_graph.get_tensor_by_name('image_tensor:0')
             # detection_boxes = detection_graph.get_tensor_by_name('detection_boxes:0')
             # detection_scores = detection_graph.get_tensor_by_name('detection_scores:0')
@@ -116,5 +128,5 @@ with detection_graph.as_default():
             #     print('ymax: ' + str(ymax))
                 
             
-            cv2.imwrite(outdir + files[img_num],img)
-            print(outdir + files[img_num])
+            cv2.imwrite(OUTPUT_PATH + files[img_num],img)
+            print(OUTPUT_PATH + files[img_num])
