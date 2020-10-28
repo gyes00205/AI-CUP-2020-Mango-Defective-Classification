@@ -20,3 +20,9 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 python detect.py -i Dev/ -o Result/
 ```
 
+## Result
+![](https://i.imgur.com/dT4taVi.jpg)
+![](https://i.imgur.com/lCpmI4g.jpg)
+
+
+
